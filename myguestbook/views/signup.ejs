@@ -1,0 +1,34 @@
+<% include _header.ejs %>
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <form action='/auth/signup' method='post'>
+    <div>
+      <label for="firstname">First name:</label>
+      <input type="text" id="firstname" name='firstname' value="">
+    </div>
+    <div>
+      <label for="lastname">Last name:</label>
+      <input type="text" id="lastname" name='lastname' value="">
+    </div>
+    <div>
+      <label for="username">User name:</label>
+      <input type="text" id="username" name='username' value="">
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name='password' value="">
+    </div>
+    <div>
+      <label for="passwordconfirm">Password Confirm:</label>
+      <input type="password" id="passwordconfirm" name='passwordconfirm' value="">
+    </div>
+    <div>
+      <button type="submit">
+        Submit
+      </button>
+    </div>
+  </form>
+
+<% include _footer.ejs %>

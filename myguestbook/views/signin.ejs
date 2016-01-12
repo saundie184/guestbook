@@ -1,0 +1,19 @@
+<% include _header.ejs %>
+
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>Sign in below to view the guestbook!</p>
+  <form action='/auth/signin' method='post'>
+    <div>
+      <label for="username">User name:</label>
+      <input type="text" id="username" name='username' value="">
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name='password' value="">
+    </div>
+    <button type='submit'> Sign in</button>
+  </form>
+<% include _footer.ejs %>
