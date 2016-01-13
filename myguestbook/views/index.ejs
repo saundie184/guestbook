@@ -1,5 +1,44 @@
 <% include _header.ejs %>
+
   <body>
-    <h1><%= title %></h1>
+    <h1>
+      <%= title %>
+    </h1>
     <p>Join our guestbook!</p>
     <a href='/auth/entry'>Click here to sign the guest book</a>
+    <div class='row'>
+      <div class='col-md-4'>
+        <p class='lead'>
+<!---
+Need to create a loop to show all reviews here for each user
+
+
+          <% for(var i=0; i<review.length; i++) {%>
+            <li>
+              <%= review[i] %>
+            </li>
+            <% } %>
+--->
+            <%= review %>
+        </p>
+        <p> by:
+          <%= username %>
+        </p>
+      </div>
+      <div class="col-md-4">
+        <p class='lead'>
+          <%= review %>
+        </p>
+        <p> by:
+          <%= username %>
+        </p>
+      </div>
+      <div class="col-md-4">
+        <p class='lead'>
+          <%= review %>
+        </p>
+        <p> by:
+          <%= username %>
+        </p>
+      </div>
+    </div>

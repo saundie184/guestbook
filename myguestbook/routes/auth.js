@@ -35,11 +35,7 @@ router.post('/signup', function(req, res) {
           email: req.body.email,
           password: hash
         }).then(
-          res.render('guestbook', {
-            title: 'My Guestbook',
-            welcome: 'Welcome, ' + req.body.username,
-            data: req.body
-          })
+          res.redirect('../')
         );
       });
     });
@@ -98,15 +94,19 @@ router.get('/entry', function(req, res, next) {
 
 //POST route for review
 router.post('/entry', function(req, res, next) {
-  // var review = req.body.review;
-  // console.log(review);
+  console.log(req.body.review);
+  console.log(req.session.user.user);
   knex('guests')
-    .where('username', 'req.session.user.user')
-    .update({
-      //TODO figure out why this is not adding to my db
-      review: 'Test review'
+    .update({review: req.body.review})
+    .where({username: req.session.user.user})
+    .then(function(resp){
+      //redirect page after you update the db
+      // console.log(resp);
+      res.redirect('../');
+    }).catch(function(err){
+        console.log(err);
+        res.send('BLah');
     });
-  res.redirect('../');
 });
 
 router.get('/signout', function(req, res) {
