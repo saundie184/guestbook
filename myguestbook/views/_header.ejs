@@ -21,14 +21,20 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
+
+            <!--TODO if user is signed in this should not appear-->
             <li> <a href="/auth/signup">Register</a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a href="/auth/signin">Sign in</a>
-            </li>
-            <li><a href="/auth/signout">Sign out</a></li>
+            <!--TODO if user is signed in this should not appear-->
+             <li>
+                <a href="/auth/signin">Sign in</a>
+              </li>
+          <!--
+            TODO only if user is signed in should this appear-->
+              <li><a href="/auth/signout">Sign out</a></li>
+
           </ul>
         </div>
         <!-- /.navbar-collapse -->

@@ -22,8 +22,11 @@ router.get('/signup', function(req, res) {
 
 //POST signup info
 router.post('/signup', function(req, res) {
-  console.log(req.body);
+  // console.log(req.body);
   //TODO add more validation for fields
+
+  // if(req.body.firstname)
+
   if (req.body.password === req.body.passwordconfirm) {
     bcrypt.genSalt(10, function(err, salt) {
       bcrypt.hash(req.body.password, salt, function(err, hash) {
@@ -35,16 +38,19 @@ router.post('/signup', function(req, res) {
           email: req.body.email,
           password: hash
         }).then(
-          res.redirect('../')
-        );
+          req.session = {
+            user: req.body.username
+          }).then(
+          res.redirect('/'));
+
+        //this should automatically sign them in
+
       });
     });
   } else {
     res.redirect('/signup');
   }
 });
-
-
 
 //GET for signin
 router.get('/signin', function(req, res, next) {
@@ -63,12 +69,12 @@ router.post('/signin', function(req, res, next) {
   }).then(function(user) {
     bcrypt.compare(req.body.password, user.password, function(err, match) {
       if (match) {
-        // console.log(user.username);
         //set cookies after verified
         req.session.user = {
           user: user.username
         };
-        res.redirect('/');
+        //redirect user to homepage
+        res.redirect('../');
       } else {
         res.send('ERROR: Incorrect username or password.');
       }
@@ -78,35 +84,59 @@ router.post('/signin', function(req, res, next) {
 
 //GET for new entry
 router.get('/entry', function(req, res, next) {
-  console.log('req.body.username is ' + req.body.username);
-  // console.log('req.session.user is ' + req.session.user);
-  //TODO add authorization
+  // console.log('req.body.username is ' + req.body.username);
+  console.log('req.session.user.user is ' + req.session.user);
+
+  //TODO add error-handling here if user is not signed in
   if (req.session.user.user) {
     res.render('entry', {
       title: 'My Guestbook',
-      //this does not log the username
       username: req.session.user.user
     });
   } else {
+
     res.send('User not authorized');
   }
 });
 
 //POST route for review
 router.post('/entry', function(req, res, next) {
-  console.log(req.body.review);
-  console.log(req.session.user.user);
+  // console.log(req.body.review);
+  // console.log(req.session.user.user);
   knex('guests')
-    .update({review: req.body.review})
-    .where({username: req.session.user.user})
-    .then(function(resp){
+    .update({
+      review: req.body.review
+    })
+    .where({
+      username: req.session.user.user
+    })
+    .then(function(resp) {
       //redirect page after you update the db
       // console.log(resp);
       res.redirect('../');
-    }).catch(function(err){
-        console.log(err);
-        res.send('BLah');
+    }).catch(function(err) {
+      console.log(err);
+      res.send('BLah');
     });
+});
+
+//POST route to edit entry
+router.get('/entry/:id/edit', function(req, res, next) {
+  console.log(req.session.user.review); // {id: 5}
+  knex('guests').select().where({
+    id: req.params.id
+  }).then(function(resp){
+    console.log(resp);
+    res.render('entry', {
+      title: 'Edit entry',
+      username: req.session.user.user,
+      //TODO add conditionals in ejs to figure this out
+      review: res[0].review
+    });
+  }).catch(function(err){
+    console.log('ERROR: ' + err);
+    res.send('ERROR!');
+  });
 });
 
 router.get('/signout', function(req, res) {

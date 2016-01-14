@@ -1,16 +1,22 @@
 <% include _header.ejs %>
+
   <body>
-    <h1><%= title %></h1>
+    <h1>
+      <%= title %>
+    </h1>
     <p>
     </p>
     <h2>Sign our guest book here!</h2>
     <form action='/auth/entry' method='post'>
       <div>
         <label for="review">Leave a review:</label>
-        <textarea type="text" id="review" name='review' value="" ></textarea>
+        <div>
+          <textarea type="text" rows="5" id="review" name='review' value=""  placeholder="" ></textarea>  
+        </div>
       </div>
       <p>
-        Signed in as: <%= username %>
+        Signed in as:
+        <%= username %>
       </p>
       <div>
         <button type="submit">
@@ -20,4 +26,4 @@
 
     </form>
 
-<% include _footer.ejs %>
+    <% include _footer.ejs %>
